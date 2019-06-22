@@ -4,69 +4,28 @@
 package log
 
 import (
-	"fmt"
 	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
-	"time"
 )
 
-var core zapcore.Core
+var (
+	logger *zap.Logger
+	sugar  *zap.SugaredLogger
+)
 
-func Initialize() error {
-
-	logger, _ := zap.NewProduction()
-
-	cfg := zap.NewProductionConfig()
-	cfg.OutputPaths = []string{
-		"/var/log/syndicate.log",
-		"stderr",
-	}
-	cfg.ErrorOutputPaths = []string{
-		"/var/log/syndicate.log",
-		"stderr",
-	}
-	logger, _ = cfg.Build()
-	_ = zap.ReplaceGlobals(logger)
-	_ = zap.RedirectStdLog(logger)
-	core = logger.Core()
-	return nil
+func init() {
+	logger, _ = zap.NewProduction()
+	defer logger.Sync() // flushes buffer, if any
+	sugar = logger.Sugar()
 }
 
 func Infof(msg string, args ...interface{}) {
-	if len(args) > 0 {
-		msg = fmt.Sprintf(msg, args...)
-	}
-	e := zapcore.Entry{
-		Message:    msg,
-		Level:      zapcore.InfoLevel,
-		Time:       time.Now().UTC(),
-		LoggerName: "syndicate",
-	}
-	core.Write(e, nil)
+	sugar.Infof(msg, args)
 }
 
 func Debugf(msg string, args ...interface{}) {
-	if len(args) > 0 {
-		msg = fmt.Sprintf(msg, args...)
-	}
-	e := zapcore.Entry{
-		Message:    msg,
-		Level:      zapcore.DebugLevel,
-		Time:       time.Now().UTC(),
-		LoggerName: "syndicate",
-	}
-	core.Write(e, nil)
+	sugar.Debugf(msg, args)
 }
 
 func Errorf(msg string, args ...interface{}) {
-	if len(args) > 0 {
-		msg = fmt.Sprintf(msg, args...)
-	}
-	e := zapcore.Entry{
-		Message:    msg,
-		Level:      zapcore.ErrorLevel,
-		Time:       time.Now().UTC(),
-		LoggerName: "syndicate",
-	}
-	core.Write(e, nil)
+	sugar.Errorf(msg, args)
 }
