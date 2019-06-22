@@ -4,10 +4,10 @@
 package main
 
 import (
-	c "github.com/vmware/k8s-endpoints-sync-controller/src/config"
-	cc "github.com/vmware/k8s-endpoints-sync-controller/src/controller"
-	"github.com/vmware/k8s-endpoints-sync-controller/src/handlers"
-	log "github.com/vmware/k8s-endpoints-sync-controller/src/log"
+	c "github.com/vmware/k8s-endpoints-sync-controller/pkg/config"
+	cc "github.com/vmware/k8s-endpoints-sync-controller/pkg/controller"
+	"github.com/vmware/k8s-endpoints-sync-controller/pkg/handlers"
+	log "github.com/vmware/k8s-endpoints-sync-controller/pkg/log"
 	"io/ioutil"
 	"os"
 	"os/signal"

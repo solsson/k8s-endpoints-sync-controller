@@ -4,9 +4,9 @@
 package handlers
 
 import (
-	c "github.com/vmware/k8s-endpoints-sync-controller/src/config"
-	"github.com/vmware/k8s-endpoints-sync-controller/src/log"
-	"github.com/vmware/k8s-endpoints-sync-controller/src/utils"
+	c "github.com/vmware/k8s-endpoints-sync-controller/pkg/config"
+	"github.com/vmware/k8s-endpoints-sync-controller/pkg/log"
+	"github.com/vmware/k8s-endpoints-sync-controller/pkg/utils"
 	v1 "k8s.io/api/core/v1"
 	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"

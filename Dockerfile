@@ -1,7 +1,23 @@
-# Copyright © 2018 VMware, Inc. All Rights Reserved.
-# SPDX-License-Identifier: MIT
+FROM golang:1.12.6-alpine3.10@sha256:c750d6718009f2e94cb20f56a87884f601f175d43c9418ae0fa21ea00ad6a2ff
+RUN apk add --no-cache git
 
-FROM vmware/photon
-ADD dist/k8s-endpoints-sync-controller /k8s-endpoints-sync-controller
-RUN chmod +x /k8s-endpoints-sync-controller
-CMD "/k8s-endpoints-sync-controller"
+WORKDIR /src
+
+COPY go.* ./
+RUN go mod download
+
+COPY . .
+
+#RUN go test
+
+#RUN sed -i 's/zap.NewDevelopment()/zap.NewProduction()/' main.go
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+  go build -ldflags '-w -extldflags "-static"' \
+  github.com/vmware/k8s-endpoints-sync-controller/cmd/controller
+
+FROM scratch
+
+COPY --from=0 /src/controller /usr/local/bin/k8s-endpoints-sync-controller
+
+ENTRYPOINT ["k8s-endpoints-sync-controller"]
