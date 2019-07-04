@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-endpoints-sync-controller
+  labels:
+    app: k8s-endpoints-sync-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-endpoints-sync-controller
+  template:
+    metadata:
+      labels:
+        app: k8s-endpoints-sync-controller
+    spec:
+      containers:
+      - name: k8s-endpoints-sync-controller
+        image: builds.registry.svc.cluster.local/ystack-examples/k8s-endpoints-sync-controller
+        env:
+        - name: NSTOWATCH
+          value: "servicetest"
+        volumeMounts:
+        - name: kubeconfigs
+          mountPath: /etc/kubeconfigs
+      volumes:
+      - name: kubeconfigs
+        configMap:
+          name: k8s-sync-kubeconfigs
