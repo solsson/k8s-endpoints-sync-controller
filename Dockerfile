@@ -21,3 +21,5 @@ FROM scratch
 COPY --from=0 /src/controller /usr/local/bin/k8s-endpoints-sync-controller
 
 ENTRYPOINT ["k8s-endpoints-sync-controller"]
+
+VOLUME [ "/tmp" ]
