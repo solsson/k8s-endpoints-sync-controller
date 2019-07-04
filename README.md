@@ -22,12 +22,7 @@ lightning talk at SRECON Asia 2019. https://www.usenix.org/sites/default/files/c
 
 ### Build & Run
 
-1. Install Go 1.9 or higher version
-2. Install Glide
-3. checkout the project onto the GOPATH
-4. run *glide up* -> to import all the dependencies
-3. run *make build* -> to build the binary
-4. run *make buildimage TAG=<image_name:version>* -> to build the Docker image
+1. docker build
 
 The executable expects kubeconfig files of the clusters to connect mounted at /etc/kubeconfigs to run in the cluster. \
 The following environment variables can be set
